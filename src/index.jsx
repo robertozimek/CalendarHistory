@@ -5,7 +5,7 @@ import CalendarHistory from './CalendarHistory.jsx';
 ReactDOM.render(
     <CalendarHistory 
         startDate={new Date()} 
-        monthsOfHistory={5} 
+        daysOfHistory={90}
     />, 
     document.getElementById('container')
 );

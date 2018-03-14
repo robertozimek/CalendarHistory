@@ -1,31 +1,36 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { getFirstDayOfMonthAndNumberOfDays } from './CalendarHelper.js';
+import PropTypes from 'prop-types';
+import { getMonthStartAndLength } from './CalendarHelper.js';
+import CalendarMonth from './CalendarMonth.jsx';
 
-export default class CalendarHistory extends React.Component {
+class CalendarHistory extends React.Component {
     constructor(props) {
         super(props);
-        const date = props.startDate;
-        const monthsOfHistory = props.monthsOfHistory;
+        this.historyStartAndLength = getMonthStartAndLength(props.startDate, props.daysOfHistory);
+    }
 
-        let currentMonth = date.getMonth();
-        let currentYear = date.getFullYear();
-
-        this.historyStartAndLength = [];
-        for (let i = 0; i < monthsOfHistory; i++) {
-            let year = (currentMonth - i < 0) ? (currentYear - 1) : currentYear;
-            let month = (currentMonth - i < 0) ? (12 + currentMonth - i) : (currentMonth - i);
-
-            let {firstDay, monthLength} = getFirstDayOfMonthAndNumberOfDays(month, year);
-            this.historyStartAndLength.push([firstDay, monthLength]);
-        }
+    getCalendarMonths() {
+        return this.historyStartAndLength.map((monthStartLength, index) =>
+            <CalendarMonth
+                key={index}
+                monthStart={monthStartLength[0]}
+                monthLength={monthStartLength[1]}
+            />
+        );
     }
 
     render() {
         return (
             <div>
-                
+                { this.getCalendarMonths() }
             </div>
         );
     }
 }
+
+CalendarHistory.propTypes = {
+    startDate: PropTypes.instanceOf(Date).isRequired,
+    daysOfHistory: PropTypes.number.isRequired
+};
+
+export default CalendarHistory;
