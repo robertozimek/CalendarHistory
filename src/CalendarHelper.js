@@ -16,8 +16,6 @@ export function getFirstDayOfMonthAndNumberOfDays(month, year) {
 export function getLocaleWeekDayOffset() {
     let browserLocale = getBrowserLocale();
     let localeData = moment.localeData(browserLocale);
-    localeData.weekdays()[localeData.firstDayOfWeek()];
-
     return localeData.firstDayOfWeek();
 }
 
