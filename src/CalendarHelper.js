@@ -13,7 +13,7 @@ export function getFirstDayOfMonthAndNumberOfDays(month, year) {
     }
 }
 
-export function getMonthStartAndLength(date, daysOfHistory) {
+export function getMonthsStartAndLength(date, daysOfHistory) {
     let monthsOfHistory = (daysOfHistory / 30) + 1;
     let currentMonth = date.getMonth();
     let currentYear = date.getFullYear();
@@ -24,10 +24,10 @@ export function getMonthStartAndLength(date, daysOfHistory) {
         let month = (currentMonth - i < 0) ? (12 + currentMonth - i) : (currentMonth - i);
 
         let {firstDay, monthLength} = getFirstDayOfMonthAndNumberOfDays(month, year);
-        historyStartAndLength.push([firstDay, monthLength]);
+        historyStartAndLength.push({month: month, year: year, start: firstDay, length: monthLength});
     }
 
-    return historyStartAndLength;
+    return historyStartAndLength.reverse();
 }
 
 export function getLocaleWeekDayOffset() {

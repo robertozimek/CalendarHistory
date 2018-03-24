@@ -23,10 +23,13 @@ class CalendarMonth extends React.Component {
     getDaysOfMonth(numberOfDaysInMonth) {
         let days = [];
         for(let i = 0; i < numberOfDaysInMonth; i++) {
+            let dayNumber = i + 1;
             days.push(
                 <CalendarDay
                     key={i}
                     isFillerDay={false}
+                    customClass={ 'day-' + dayNumber }
+                    dayContent={ this.props.showNumbersOnDays ? dayNumber : null }
                 />
             );
         }

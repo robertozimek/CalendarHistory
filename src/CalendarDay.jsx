@@ -18,14 +18,16 @@ class CalendarDay extends React.Component {
     render() {
         let isFiller = this.props.isFillerDay;
         let customClass = this.props.customClass;
-        let content = this.props.eventContent;
+        let content = this.props.dayContent;
         let historyDayClass = 'historyDay ' +
             (isFiller ? 'filler' : 'day') +
             (customClass != null ? ' ' + customClass : '');
 
         return(
             <div className={historyDayClass} onClick={this.handleClick}>
-                { content }
+                <div className='dayContent'>
+                    { content }
+                </div>
             </div>
         );
     }
@@ -33,8 +35,11 @@ class CalendarDay extends React.Component {
 
 CalendarDay.propTypes = {
     isFillerDay: PropTypes.bool.isRequired,
-    customClass: PropTypes.string.isOptional,
-    content: PropTypes.string.isOptional
+    customClass: PropTypes.string,
+    dayContent: PropTypes.oneOfType([
+        PropTypes.string,
+        PropTypes.number
+    ])
 };
 
 export default CalendarDay;
