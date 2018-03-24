@@ -4,29 +4,49 @@ import PropTypes from 'prop-types';
 class CalendarDay extends React.Component {
     constructor(props) {
         super(props);
-
         this.handleClick = this.handleClick.bind(this);
+        this.handleMouseOver = this.handleMouseOver.bind(this);
+        this.handleMouseLeave = this.handleMouseLeave.bind(this);
     }
 
     handleClick(event) {
         event.preventDefault();
         if(this.props.onClickHandler && typeof this.props.onClickHandler === 'function') {
-            this.props.onClickHandler.call(this, event);
+            this.props.onClickHandler.call(this, event, this.props.incident);
+        }
+    }
+
+    handleMouseOver(event) {
+        event.preventDefault();
+        if(this.props.onMouseOverHandler && typeof this.props.onMouseOverHandler === 'function') {
+            this.props.onMouseOverHandler.call(this, event, this.props.incident);
+        }
+    }
+
+    handleMouseLeave(event) {
+        event.preventDefault();
+        if(this.props.onMouseLeaveHandler && typeof this.props.onMouseLeaveHandler === 'function') {
+            this.props.onMouseLeaveHandler.call(this, event, this.props.incident);
         }
     }
 
     render() {
         let isFiller = this.props.isFillerDay;
-        let customClass = this.props.customClass;
-        let content = this.props.dayContent;
+        let incident = this.props.incident;
+
+        let content = this.props.shouldShowDay ? this.props.dayNumber : incident.content;
         let historyDayClass = 'historyDay ' +
             (isFiller ? 'filler' : 'day') +
-            (customClass != null ? ' ' + customClass : '');
+            (incident.cssClass != null ? ' ' + incident.cssClass : '');
 
         return(
-            <div className={historyDayClass} onClick={this.handleClick}>
-                <div className='dayContent'>
-                    { content }
+            <div
+                className={historyDayClass}
+                onClick={this.handleClick}
+                onMouseOver={this.handleMouseOver}
+                onMouseLeave={this.handleMouseLeave}
+            >
+                <div className='dayContent' dangerouslySetInnerHTML={{__html: content}}>
                 </div>
             </div>
         );
@@ -35,11 +55,7 @@ class CalendarDay extends React.Component {
 
 CalendarDay.propTypes = {
     isFillerDay: PropTypes.bool.isRequired,
-    customClass: PropTypes.string,
-    dayContent: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.number
-    ])
+    incident: PropTypes.object
 };
 
 export default CalendarDay;

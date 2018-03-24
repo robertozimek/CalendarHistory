@@ -25,9 +25,10 @@ class CalendarHistory extends React.Component {
     getIncidentsForMonth(month, year) {
         let incidents = this.props.incidents || [];
 
-        let incidentsForMonth = incidents.filter((incident) => {
+        console.log(incidents);
+        let incidentsForMonth = incidents.filter(incident => {
            return incident.date.getMonth() === month
-               && incident.date.getYear() === year;
+               && incident.date.getFullYear() === year;
         });
 
         return incidentsForMonth;

@@ -14,6 +14,7 @@ class CalendarMonth extends React.Component {
                 <CalendarDay
                     key={i}
                     isFillerDay={true}
+                    incident={{}}
                 />
             );
         }
@@ -24,16 +25,29 @@ class CalendarMonth extends React.Component {
         let days = [];
         for(let i = 0; i < numberOfDaysInMonth; i++) {
             let dayNumber = i + 1;
+            let incident = this.getIncidentForDay(dayNumber);
+            console.log(incident);
             days.push(
                 <CalendarDay
-                    key={i}
+                    key={'day-' + i}
                     isFillerDay={false}
-                    customClass={ 'day-' + dayNumber }
-                    dayContent={ this.props.showNumbersOnDays ? dayNumber : null }
+                    dayNumber={dayNumber}
+                    incident={incident}
+                    shouldShowDay={this.props.showNumbersOnDays}
                 />
             );
         }
         return days;
+    }
+
+    getIncidentForDay(day) {
+        let incidents = this.props.incidents || [];
+
+        let foundIncident = incidents.find(incident => {
+            return incident.date.getDate() === day;
+        });
+
+        return foundIncident || {};
     }
 
     render() {
