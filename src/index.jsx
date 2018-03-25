@@ -13,11 +13,16 @@ ReactDOM.render(
         showNumbersOnDays={true}
         incidents={[
             {
-                date: sampleDate,
+                date: {
+                    start: sampleDate
+                },
                 cssClass: 'turquoise',
             },
             {
-                date: sampleDate2,
+                date: {
+                    start: sampleDate2,
+                    end: sampleDate
+                },
                 cssClass: 'turquoise',
             }
         ]}

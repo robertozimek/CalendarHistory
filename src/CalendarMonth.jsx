@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CalendarDay from './CalendarDay.jsx';
+import {isDateInRangeOfDates} from './CalendarHelper';
 
 class CalendarMonth extends React.Component {
     constructor(props) {
@@ -26,7 +27,6 @@ class CalendarMonth extends React.Component {
         for(let i = 0; i < numberOfDaysInMonth; i++) {
             let dayNumber = i + 1;
             let incident = this.getIncidentForDay(dayNumber);
-            console.log(incident);
             days.push(
                 <CalendarDay
                     key={'day-' + i}
@@ -43,8 +43,11 @@ class CalendarMonth extends React.Component {
     getIncidentForDay(day) {
         let incidents = this.props.incidents || [];
 
+        let dateForDay = new Date(this.props.year, this.props.month, day);
         let foundIncident = incidents.find(incident => {
-            return incident.date.getDate() === day;
+            return incident.date.hasOwnProperty('end') 
+                ? isDateInRangeOfDates(incident.date.start, incident.date.end, dateForDay)
+                : incident.date.start.getDate() === day;
         });
 
         return foundIncident || {};

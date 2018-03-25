@@ -1,4 +1,7 @@
-import moment from 'moment'
+import Moment from 'moment'
+import {extendMoment} from 'moment-range';
+
+const moment = extendMoment(Moment);
 
 export function getFirstDayOfMonthAndNumberOfDays(month, year) {
     let offset = getLocaleWeekDayOffset();
@@ -34,6 +37,24 @@ export function getLocaleWeekDayOffset() {
     let browserLocale = getBrowserLocale();
     let localeData = moment.localeData(browserLocale);
     return localeData.firstDayOfWeek();
+}
+
+export function isDateInRangeOfDates(startDate, endDate, date) {
+    let start = clearTimeFromDate(startDate);
+    let end = clearTimeFromDate(endDate);
+
+    let dateRange = moment().range(start, end);
+
+    return dateRange.contains(date);
+}
+
+function clearTimeFromDate(date) {
+    let newDate = date;
+    newDate.setHours(0);
+    newDate.setMinutes(0);
+    newDate.setSeconds(0);
+    newDate.setMilliseconds(0);
+    return newDate;
 }
 
 export function getBrowserLocale() {
