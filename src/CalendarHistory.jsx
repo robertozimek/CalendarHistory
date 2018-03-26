@@ -1,28 +1,50 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {getMonthsStartAndLength, getEventsForMonth, isDateInRangeOfDates} from './CalendarHelper.js';
+import {getMonthsStartAndLengthWithFillerDays, getEventsForMonth, isDateInRangeOfDates} from './CalendarHelper.js';
 import CalendarMonth from './CalendarMonth.jsx';
 
 class CalendarHistory extends React.Component {
     constructor(props) {
         super(props);
-        this.historyStartAndLength = getMonthsStartAndLength(props.startDate, props.daysOfHistory);
+        let {
+            historyStartAndLength, 
+            firstMonthFillerDays, 
+            lastMonthFillerDays
+        } = getMonthsStartAndLengthWithFillerDays(props.startDate, props.daysOfHistory);
+
+        this.historyStartAndLength = historyStartAndLength;
+        this.firstMonthFillerDays = firstMonthFillerDays;
+        this.lastMonthFillerDays = lastMonthFillerDays;
     }
 
     getCalendarMonths() {
         return this.historyStartAndLength
-            .map((monthStartLength, index) =>
-                <CalendarMonth
+            .map((monthStartLength, index) => {
+                let firstMonth = index === this.historyStartAndLength.length - 1;
+                let lastMonth = index === 0;
+                let monthLength = monthStartLength.length;
+
+                if(firstMonth) {
+                    monthLength = Math.abs(monthLength - this.firstMonthFillerDays);
+                }
+    
+                if(lastMonth) {
+                    monthLength = Math.abs(monthLength - this.lastMonthFillerDays);
+                }
+                
+                return (<CalendarMonth
                     key={index}
                     month={monthStartLength.month}
                     year={monthStartLength.year}
                     monthStart={monthStartLength.start}
-                    monthLength={monthStartLength.length}
+                    monthLength={monthLength}
+                    beginningFillerDays={lastMonth ? this.lastMonthFillerDays : 0}
+                    endingFillerDays={firstMonth ? this.firstMonthFillerDays : 0}
                     incidents={this.getIncidentsForMonth(monthStartLength.month, monthStartLength.year)}
                     eventTrigger={this.props.trigger}
                     eventHandlerCallback={this.props.callback}
-                />
-            );
+                />);
+            });
     }
 
     getIncidentsForMonth(month, year) {

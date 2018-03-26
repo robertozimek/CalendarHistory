@@ -8,16 +8,30 @@ class CalendarMonth extends React.Component {
         super(props);
     }
 
+    getBlankDays(numberOfBlankDays) {
+        let blankDays = [];
+        for(let i = 0; i < numberOfBlankDays; i++) {
+            blankDays.push(
+                <CalendarDay
+                    key={i}
+                    isBlankDay={true}
+                    incident={{}}
+                />
+            );
+        }
+        return blankDays;
+    }
+
     getFillerDays(numberOfFillerDays) {
         let fillerDays = [];
-        for(let i = 0; i < numberOfFillerDays; i++) {
+        for(let i = 0; i< numberOfFillerDays; i++) {
             fillerDays.push(
                 <CalendarDay
                     key={i}
                     isFillerDay={true}
                     incident={{}}
                 />
-            );
+            )
         }
         return fillerDays;
     }
@@ -30,7 +44,6 @@ class CalendarMonth extends React.Component {
             days.push(
                 <CalendarDay
                     key={'day-' + i}
-                    isFillerDay={false}
                     dayNumber={dayNumber}
                     incident={incident}
                     shouldShowDay={this.props.showNumbersOnDays}
@@ -56,8 +69,10 @@ class CalendarMonth extends React.Component {
     render() {
         return(
             <div className='calendar'>
-                { this.getFillerDays(this.props.monthStart) }
-                { this.getDaysOfMonth(this.props.monthLength) }
+                {this.getBlankDays(this.props.monthStart)}
+                {this.getFillerDays(this.props.beginningFillerDays)}
+                {this.getDaysOfMonth(this.props.monthLength)}
+                {this.getFillerDays(this.props.endingFillerDays)}
             </div>
         );
     }
@@ -65,7 +80,9 @@ class CalendarMonth extends React.Component {
 
 CalendarMonth.propTypes = {
     monthStart: PropTypes.number.isRequired,
-    monthLength: PropTypes.number.isRequired
+    monthLength: PropTypes.number.isRequired,
+    beginningFillerDays: PropTypes.number.isRequired,
+    endingFillerDays: PropTypes.number.isRequired
 };
 
 export default CalendarMonth;
