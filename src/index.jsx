@@ -3,8 +3,9 @@ import ReactDOM from 'react-dom';
 import CalendarHistory from './CalendarHistory.jsx';
 
 let sampleDate = new Date();
+sampleDate.setDate(23);
 let sampleDate2 = new Date();
-sampleDate2.setDate(20);
+sampleDate2.setDate(5);
 
 ReactDOM.render(
     <CalendarHistory 

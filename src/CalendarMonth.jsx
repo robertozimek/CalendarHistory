@@ -24,12 +24,18 @@ class CalendarMonth extends React.Component {
 
     getFillerDays(numberOfFillerDays) {
         let fillerDays = [];
-        for(let i = 0; i< numberOfFillerDays; i++) {
+        for(let i = 0; i < numberOfFillerDays; i++) {
+            let offsetFillerDays = this.props.endingFillerDays > 0 
+                ? this.props.monthLength - this.props.endingFillerDays + numberOfFillerDays
+                : 0;
+            let dayNumber = i + 1 + offsetFillerDays;
             fillerDays.push(
                 <CalendarDay
                     key={i}
                     isFillerDay={true}
                     incident={{}}
+                    dayNumber={dayNumber}
+                    shouldShowDay={this.props.showNumbersOnDays}
                 />
             )
         }
@@ -39,7 +45,7 @@ class CalendarMonth extends React.Component {
     getDaysOfMonth(numberOfDaysInMonth) {
         let days = [];
         for(let i = 0; i < numberOfDaysInMonth; i++) {
-            let dayNumber = i + 1;
+            let dayNumber = this.props.beginningFillerDays + i + 1;
             let incident = this.getIncidentForDay(dayNumber);
             days.push(
                 <CalendarDay

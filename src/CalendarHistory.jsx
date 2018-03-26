@@ -43,6 +43,7 @@ class CalendarHistory extends React.Component {
                     incidents={this.getIncidentsForMonth(monthStartLength.month, monthStartLength.year)}
                     eventTrigger={this.props.trigger}
                     eventHandlerCallback={this.props.callback}
+                    showNumbersOnDays={this.props.showNumbersOnDays}
                 />);
             });
     }
