@@ -62,13 +62,15 @@ class CalendarMonth extends React.Component {
     getIncidentForDay(day) {
         let incidents = this.props.incidents || [];
 
+        console.log(incidents);
+
         let dateForDay = new Date(this.props.year, this.props.month, day);
         let foundIncident = incidents.find(incident => {
+            
             return incident.date.hasOwnProperty('end') 
                 ? isDateInRangeOfDates(incident.date.start, incident.date.end, dateForDay)
-                : incident.date.start.getDate() === day;
+                : incident.date.start.getDate() >= day;
         });
-
         return foundIncident || {};
     }
 
@@ -88,7 +90,8 @@ CalendarMonth.propTypes = {
     monthStart: PropTypes.number.isRequired,
     monthLength: PropTypes.number.isRequired,
     beginningFillerDays: PropTypes.number.isRequired,
-    endingFillerDays: PropTypes.number.isRequired
+    endingFillerDays: PropTypes.number.isRequired,
+    incidents: PropTypes.array
 };
 
 export default CalendarMonth;

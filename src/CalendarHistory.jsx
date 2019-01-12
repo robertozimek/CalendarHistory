@@ -59,7 +59,7 @@ class CalendarHistory extends React.Component {
             );
             return incident.date.hasOwnProperty('end') 
                 ? isDateInRangeOfDates(incident.date.start, incident.date.end, dateForMonth) 
-                : incident.date.start.getMonth() === month && incident.date.start.getYear() === year;
+                : incident.date.start.getMonth() >= month && incident.date.start.getYear() === year;
         });
 
         return incidentsForMonth;

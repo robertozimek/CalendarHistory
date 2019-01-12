@@ -7,26 +7,29 @@ sampleDate.setDate(23);
 let sampleDate2 = new Date();
 sampleDate2.setDate(5);
 
+let incidents = [
+    {
+        date: {
+            start: sampleDate
+        },
+        cssClass: 'turquoise'
+    },
+    {
+        date: {
+            start: sampleDate2
+        },
+        cssClass: 'turquoise'
+    }
+];
+
+console.log(incidents);
+
 ReactDOM.render(
     <CalendarHistory 
         startDate={new Date()} 
         daysOfHistory={90}
         showNumbersOnDays={true}
-        incidents={[
-            {
-                date: {
-                    start: sampleDate
-                },
-                cssClass: 'turquoise',
-            },
-            {
-                date: {
-                    start: sampleDate2,
-                    end: sampleDate
-                },
-                cssClass: 'turquoise',
-            }
-        ]}
+        incidents={incidents}
     />, 
     document.getElementById('container')
 );
